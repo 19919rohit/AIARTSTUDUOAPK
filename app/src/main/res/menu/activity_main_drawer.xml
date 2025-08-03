@@ -18,7 +18,7 @@
 			android:title="@string/plugins" />
 		<item
 			android:id="@+id/nav_psg"
-			android:icon="@drawable/googleg_standard_color_18"
+			
 			android:title="@string/play_store_guide" />
 		<item
 			android:id="@+id/nav_support"
