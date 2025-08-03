@@ -8,6 +8,8 @@ ext {
 
 buildscript {
 	repositories {
+
+		google()
 		
 		mavenCentral()
 	}
@@ -21,6 +23,7 @@ buildscript {
 
 allprojects {
 	repositories {
+		google()
 		
 		mavenCentral()
 	}
