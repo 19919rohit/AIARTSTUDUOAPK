@@ -1,4 +1,38 @@
+plugins {
+    id 'com.android.application'
+}
+
 android {
     namespace 'com.aiartstudio.app'
-    // ... rest of your config
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.aiartstudio.app"
+        minSdk 21
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        multiDexEnabled true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.webkit:webkit:1.7.0'
+    implementation 'androidx.multidex:multidex:2.0.1'
 }
