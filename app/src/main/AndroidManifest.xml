@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-
+    <!-- Screen Support -->
     <supports-screens
         android:anyDensity="true"
         android:resizeable="true"
@@ -15,18 +14,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <!-- Permissions for Optional Features (Add/Remove as needed) -->
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Optional Features (Enable if your app uses them) -->
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
-    <!-- Permissions for File Access (Scoped Storage) -->
+    <!-- Scoped Storage for Modern Android -->
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
@@ -34,50 +32,44 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"
-        tools:ignore="ScopedStorage" />
+        android:maxSdkVersion="28" />
 
-    <!-- Features (Optional) -->
+    <!-- Optional Features Declaration -->
     <uses-feature android:name="android.hardware.location.gps" android:required="false" />
     <uses-feature android:name="android.hardware.camera" android:required="false" />
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
 
     <application
-        android:icon="@mipmap/ic_launcher"
         android:name=".SWVContext$App"
         android:label="AI Art Studio"
-        android:supportsRtl="true"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:theme="@style/SplashTheme"
-        android:hardwareAccelerated="true"
-        tools:ignore="UnusedAttribute">
-
-        <property
-            android:name="android.adservices.AD_SERVICES_CONFIG"
-            android:resource="@xml/gma_ad_services_config"
-            tools:replace="android:resource" />
+        android:supportsRtl="true"
+        android:hardwareAccelerated="true">
 
         <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|navigation|uiMode"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme"
             android:exported="true"
-            android:label="AI Art Studio">
+            android:theme="@style/AppTheme"
+            android:label="AI Art Studio"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|navigation|uiMode">
+
+            <!-- Launcher Intent -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <!-- Deep Link to Your Website -->
             <intent-filter android:label="AI Art Studio">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="https"
-                    android:host="docs.mgks.dev"
-                    android:pathPrefix="/smart-webview" />
-            </intent-filter>
-            <intent-filter android:label="OpenURI">
-                <!-- ... -->
+                    android:host="aidashboardartstudio.netlify.app" />
             </intent-filter>
         </activity>
     </application>
