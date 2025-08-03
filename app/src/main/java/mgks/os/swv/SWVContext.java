@@ -58,7 +58,7 @@ public class SWVContext {
     // ===========================================
 
     // URL configurations
-    public static String "https://aidashboardartstudio.netlify.app/";
+    public static final String BASE_URL = "https://aidashboardartstudio.netlify.app/";
     public static String ASWV_OFFLINE_URL;
     public static String ASWV_SEARCH;
     public static String ASWV_SHARE_URL_SUFFIX;
