@@ -22,8 +22,10 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +34,10 @@ public class PermissionManager {
     private static final String TAG = "PermissionManager";
 
     // --- Permission Request Codes ---
-    // We use a single code for the initial batch request for simplicity.
-    // Individual requests (like from a plugin) can use their own codes.
     public static final int INITIAL_REQUEST_CODE = 100;
     public static final int CAMERA_REQUEST_CODE = 101;
     public static final int STORAGE_REQUEST_CODE = 102;
+    public static final int MICROPHONE_REQUEST_CODE = 103;
 
     private final Activity activity;
 
@@ -68,8 +69,6 @@ public class PermissionManager {
                     break;
 
                 case "STORAGE":
-                    // Note: It's often better to request storage/media contextually.
-                    // But if required on launch, this handles it.
                     if (SWVContext.ASWP_FUPLOAD && !isStoragePermissionGranted()) {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                             permissionsToRequest.add(Manifest.permission.READ_MEDIA_IMAGES);
@@ -78,10 +77,16 @@ public class PermissionManager {
                         }
                     }
                     break;
+
+                case "MICROPHONE":
+                    if (!isMicrophonePermissionGranted()) {
+                        permissionsToRequest.add(Manifest.permission.RECORD_AUDIO);
+                    }
+                    break;
             }
         }
 
-        // If there are permissions to request, request them all at once.
+        // Request all needed permissions at once
         if (!permissionsToRequest.isEmpty()) {
             Log.d(TAG, "Requesting initial permissions: " + permissionsToRequest);
             ActivityCompat.requestPermissions(activity, permissionsToRequest.toArray(new String[0]), INITIAL_REQUEST_CODE);
@@ -91,8 +96,7 @@ public class PermissionManager {
     }
 
     /**
-     * A dedicated method to request camera permissions when needed.
-     * This is better for user context than asking on launch.
+     * Request camera permissions when needed (includes storage if required).
      */
     public void requestCameraPermission() {
         if (!isCameraPermissionGranted()) {
@@ -109,6 +113,17 @@ public class PermissionManager {
         }
     }
 
+    /**
+     * Request microphone permission when needed.
+     */
+    public void requestMicrophonePermission() {
+        if (!isMicrophonePermissionGranted()) {
+            ActivityCompat.requestPermissions(activity,
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    MICROPHONE_REQUEST_CODE);
+        }
+    }
+
     // --- Helper methods to check permission status ---
 
     public boolean isLocationPermissionGranted() {
@@ -119,7 +134,7 @@ public class PermissionManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             return ContextCompat.checkSelfPermission(activity, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
         }
-        return true; // Notifications permission not required before Android 13
+        return true; // Not required before Android 13
     }
 
     public boolean isCameraPermissionGranted() {
@@ -132,4 +147,8 @@ public class PermissionManager {
         }
         return ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
     }
-}
+
+    public boolean isMicrophonePermissionGranted() {
+        return ContextCompat.checkSelfPermission(activity, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED;
+    }
+  }
